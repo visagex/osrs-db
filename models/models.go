@@ -66,3 +66,9 @@ type Skill struct {
 	Name       string `json:"name"`
 	Boostable  string `json:"boostable"`
 }
+
+type OsrsItem struct {
+	Item_info   WikiItem
+	Item_recipe WikiRecipe
+	Item_bonus  WikiBonus
+}
