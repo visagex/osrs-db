@@ -69,6 +69,6 @@ type Skill struct {
 
 type OsrsItem struct {
 	Item_info   WikiItem
-	Item_recipe WikiRecipe
+	Item_recipe ProductionJson
 	Item_bonus  WikiBonus
 }
