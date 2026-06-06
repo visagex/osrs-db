@@ -28,7 +28,7 @@ import (
 
 const wikiURL = "https://oldschool.runescape.wiki/api.php"
 
-var itemFields = []string{"item_id", "item_name", "examine", "tradeable", "weight", "value", "page_name"}
+var itemFields = []string{"item_id", "item_name", "examine", "tradeable", "weight", "value", "page_name", "high_alchemy_value", "quest"}
 var bonusFields = []string{"page_name", "page_name_sub", "stab_attack_bonus", "slash_attack_bonus", "crush_attack_bonus", "range_attack_bonus", "magic_attack_bonus", "stab_defence_bonus", "slash_defence_bonus", "crush_defence_bonus",
 	"range_defence_bonus", "magic_defence_bonus", "strength_bonus", "ranged_strength_bonus", "prayer_bonus", "magic_damage_bonus", "equipment_slot", "weapon_attack_speed", "weapon_attack_range", "combat_style"}
 var recipeFields = []string{"page_name", "production_json"}
@@ -84,14 +84,13 @@ func fetchItems(itemArray *[]models.WikiItem, wg *sync.WaitGroup) {
 			log.Fatal(err)
 		}
 
-		//fmt.Println("Status:", resp.StatusCode)
-
 		body, err := io.ReadAll(resp.Body)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		//fmt.Println("Raw:", string(body))
+		// fmt.Println("Status:", resp.StatusCode)
+		// fmt.Println("Raw:", string(body))
 
 		var result models.ItemBucketResponse
 		if err := json.Unmarshal(body, &result); err != nil {
@@ -159,7 +158,7 @@ func fetchRecipes(recipeArray *[]models.WikiRecipe, wg *sync.WaitGroup) {
 	client := &http.Client{}
 
 	for {
-		req := buildRequest(limit, offset, "Recipe", recipeFields)
+		req := buildRequest(limit, offset, "recipe", recipeFields)
 
 		resp, err := client.Do(req)
 		if err != nil {
@@ -172,8 +171,6 @@ func fetchRecipes(recipeArray *[]models.WikiRecipe, wg *sync.WaitGroup) {
 		if err != nil {
 			log.Fatal(err)
 		}
-
-		//fmt.Println("Raw:", string(body))
 
 		var result models.RecipeBucketResponse
 		if err := json.Unmarshal(body, &result); err != nil {

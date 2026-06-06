@@ -8,6 +8,7 @@ type WikiItem struct {
 	Tradeable     string   `json:"tradeable"`
 	Weight        float64  `json:"weight"`
 	HighAlchValue int      `json:"high_alchemy_value"`
+	Quest         string   `json:"quest"`
 }
 
 type ItemBucketResponse struct {
@@ -50,24 +51,25 @@ type WikiRecipe struct {
 }
 
 type ProductionJson struct {
-	Ticks     int        `json:"ticks"`
+	Ticks     string     `json:"ticks"`
 	Materials []Material `json:"materials"`
 	Skills    []Skill    `json:"skills"`
 }
 
 type Material struct {
-	Quantity int    `json:"quantity"`
+	Quantity string `json:"quantity"`
 	Name     string `json:"name"`
 }
 
 type Skill struct {
-	Experience int    `json:"experience"`
-	Level      int    `json:"level"`
+	Experience string `json:"experience"`
+	Level      string `json:"level"`
 	Name       string `json:"name"`
 	Boostable  string `json:"boostable"`
 }
 
 type OsrsItem struct {
+	Name        string
 	Item_info   WikiItem
 	Item_recipe ProductionJson
 	Item_bonus  WikiBonus
