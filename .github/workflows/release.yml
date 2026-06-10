@@ -26,6 +26,11 @@ jobs:
       - name: Generate database
         run: go run .
 
+      - name: Tag latest
+        run: |
+          git tag -f latest
+          git push -f origin latest
+
       - name: Create release
         uses: softprops/action-gh-release@v3
         with:
