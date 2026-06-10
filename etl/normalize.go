@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/visagex/osrsdb-api/cache"
 	"github.com/visagex/osrsdb-api/models"
 	"github.com/visagex/osrsdb-api/wiki"
 )
@@ -16,7 +17,7 @@ import (
 
 // return osrsItem slice
 
-func buildItems() []models.OsrsItem {
+func BuildItems() []models.OsrsItem {
 
 	itemArray := []models.WikiItem{}
 	bonusArray := []models.WikiBonus{}
@@ -285,9 +286,14 @@ func insertItems(db *sql.DB, items []models.OsrsItem) error {
 }
 
 func Run() {
-	items := buildItems()
+	items := BuildItems()
 
-	db, err := sql.Open("sqlite3", "D:/Workspaces/osrsdb-api/osrs.db")
+	err := cache.SaveCache(items, "osrs-items.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	db, err := sql.Open("sqlite3", "osrs.db")
 	if err != nil {
 		log.Fatal("open error: ", err)
 	}

@@ -1,0 +1,38 @@
+name: Weekly DB Release
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+
+      - name: Install GCC
+        run: sudo apt-get install -y gcc
+
+      - name: Generate database
+        run: go run .
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest OSRS DB
+          body: Weekly refresh of the OSRS item database.
+          files: |
+            osrs.db
+            osrs-items.json
+          make_latest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
